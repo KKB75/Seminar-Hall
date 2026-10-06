@@ -443,6 +443,9 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-si
   *{transition:none !important;animation:none !important;scroll-behavior:auto !important}
 }
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.pp-long{margin-top:10px;display:grid;gap:10px}
+.pl-item label{display:block;font-size:13px;font-weight:700;margin-bottom:4px}
+.pl-item textarea{width:100%;font:inherit;font-size:13.5px;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg);resize:vertical}
 </style>
 
 <div class="wrap">
@@ -909,6 +912,12 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-si
       <div class="prefill-panel" id="prefill-panel" hidden role="status">
         <p class="pp-main">Forms 창이 열렸습니다. 내용을 확인하고 Forms의 '제출'을 눌러 주세요.</p>
         <p class="pp-warn" id="prefill-warn" hidden>의견이 길어 일부가 잘릴 수 있습니다. Forms에서 내용을 확인해 주세요.</p>
+        <div class="pp-long" id="prefill-long" hidden>
+          <p class="pp-warn">작성하신 글이 길어 Forms에는 선택 항목만 채워서 열었습니다. 아래 글은 복사 버튼을 눌러 Forms의 해당 칸에 붙여넣어 주세요.</p>
+          <div class="pl-item" id="pl-pain-wrap"><label for="pl-pain">9. 지금 공간에서 불편했던 점</label><textarea id="pl-pain" readonly rows="3"></textarea><div class="row"><button type="button" class="btn ghost pl-copy" data-for="pl-pain">복사</button><span class="hint pl-status" aria-live="polite"></span></div></div>
+          <div class="pl-item" id="pl-vip-wrap" hidden><label for="pl-vip">14. VIP 상담 상황</label><textarea id="pl-vip" readonly rows="2"></textarea><div class="row"><button type="button" class="btn ghost pl-copy" data-for="pl-vip">복사</button><span class="hint pl-status" aria-live="polite"></span></div></div>
+          <div class="pl-item"><label for="pl-comment">16. 이유·우려·제안</label><textarea id="pl-comment" readonly rows="4"></textarea><div class="row"><button type="button" class="btn ghost pl-copy" data-for="pl-comment">복사</button><span class="hint pl-status" aria-live="polite"></span></div></div>
+        </div>
         <p><a id="prefill-link" href="#" target="_blank" rel="noopener">창이 열리지 않았다면 여기를 눌러 주세요</a></p>
         <details id="prefill-copy">
           <summary>복사해서 보내기</summary>
@@ -960,7 +969,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-si
     <p class="muted-line" id="list-offline">접수된 의견은 추진실에서 취합해 공유합니다.</p>
   </section>
 
-  <footer>마이다스아이티 정자동 신사옥 · 신사옥추진실 · 도면 U.LAB · <span class="mono">최종 수정 2026.10.04</span></footer>
+  <footer>마이다스아이티 정자동 신사옥 · 신사옥추진실 · 도면 U.LAB · <span class="mono">최종 수정 2026.10.06</span></footer>
 </div>
 
 <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="이미지 크게 보기" hidden>
@@ -1541,16 +1550,18 @@ async function onSubmit(e) {
   }
 }
 let PREFILL_MODE = false;
-function buildPrefillUrl(doc) {
+function buildPrefillUrl(doc, omitFields) {
   const cfg = FORMS_PREFILL, map = cfg.map || {};
+  const omit = new Set(Array.isArray(omitFields) ? omitFields : []);
   let url = String(cfg.base || "");
   let sep = url.includes("?") ? "&" : "?";
   const add = (k, v) => { url += `${sep}${k}=${encodeURIComponent(v)}`; sep = "&"; };
   const strip = new Set(Array.isArray(cfg.stripSpaces) ? cfg.stripSpaces : []);
   const TEXT_FIELDS = new Set(["name", "team", "pain", "vipNote", "comment"]);
   Object.keys(map).forEach(field => {
-    const key = map[field]; if (!key) return;
+    const key = map[field]; if (!key || omit.has(field)) return;
     let v = doc[field];
+    if (TEXT_FIELDS.has(field) && typeof v === "string") v = v.replace(/\r?\n+/g, " / ").trim();
     if (strip.has(field)) v = Array.isArray(v) ? v.map(x => String(x).replace(/\s+/g, "")) : (v == null ? v : String(v).replace(/\s+/g, ""));
     if (cfg.multi === "json") {
       if (Array.isArray(v)) {
@@ -1570,14 +1581,22 @@ function buildPrefillUrl(doc) {
   });
   return url;
 }
+const PREFILL_BUDGET = 3000;
 function submitPrefill(doc) {
-  const url = buildPrefillUrl(doc);
+  let url = buildPrefillUrl(doc);
+  let longMode = false;
+  if (url.length > PREFILL_BUDGET) { url = buildPrefillUrl(doc, ["pain", "comment", "vipNote"]); longMode = true; }
   window.__lastFormsUrl = url;
+  $("prefill-long").hidden = !longMode;
+  if (longMode) {
+    $("pl-pain").value = doc.pain || ""; $("pl-comment").value = doc.comment || ""; $("pl-vip").value = doc.vipNote || "";
+    $("pl-pain-wrap").hidden = !(doc.pain || "").trim(); $("pl-vip-wrap").hidden = !(doc.vipNote || "").trim();
+  }
   const a = document.createElement("a");
   a.href = url; a.target = "_blank"; a.rel = "noopener";
   a.style.display = "none"; document.body.appendChild(a); a.click(); a.remove();
   $("prefill-link").href = url;
-  $("prefill-warn").hidden = url.length <= 6000;
+  $("prefill-warn").hidden = true;
   $("prefill-text").value = plainText(doc);
   $("prefill-copy-status").textContent = "";
   $("fallback").hidden = true;
@@ -1679,6 +1698,11 @@ function wireForm() {
   f.addEventListener("change", saveDraft);
   $("copy-btn").addEventListener("click", onCopy);
   $("list-refresh").addEventListener("click", loadSheet);
+    document.querySelectorAll(".pl-copy").forEach(b => b.addEventListener("click", async () => {
+    const ta = $(b.dataset.for), st = b.parentElement.querySelector(".pl-status");
+    try { await navigator.clipboard.writeText(ta.value); st.textContent = "복사됨"; }
+    catch (e) { ta.focus(); ta.select(); try { document.execCommand("copy"); st.textContent = "복사됨"; } catch (e2) { st.textContent = "선택된 내용을 Ctrl+C로 복사해 주세요"; } }
+  }));
   $("prefill-copy-btn").addEventListener("click", onCopy);
   $("prefill-clear").addEventListener("click", () => {
     writeForm({});
