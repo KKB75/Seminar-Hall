@@ -7,6 +7,7 @@
   --pos:#2d7a4f; --pos-soft:#e3f2e9; --warn:#a4620f; --warn-soft:#fbefdc;
   --paper:#ffffff; --paper-line:#cfd6df; --shadow:0 1px 2px rgba(22,32,43,.06);
   --focus:#1f5f8b;
+  --des:#6a4fb3; --des-soft:#eee9f8;
   --flow-blue:#2f6fd6; --flow-green:#2e9a4e;
   --lb-bg:rgba(8,12,18,.96); --lb-fg:#f4f6f8; --lb-btn:rgba(255,255,255,.14); --lb-btn-h:rgba(255,255,255,.26); --lb-cap:rgba(8,12,18,.72);
   --hero-dim:1; --hero-solid:38%; --hero-clear:66%;
@@ -19,7 +20,7 @@
     --pos:#6cc495; --pos-soft:#17301f; --warn:#e3a858; --warn-soft:#352612;
     --paper:#f4f6f8; --paper-line:#3a4756; --shadow:0 1px 2px rgba(0,0,0,.4);
     --focus:#8cc4ea;
-    --hero-dim:.7; --hero-solid:42%; --hero-clear:70%;
+    --des:#b8a3ee; --des-soft:#2a2342; --hero-dim:.7; --hero-solid:42%; --hero-clear:70%;
     color-scheme:dark;
   }
 }
@@ -29,7 +30,7 @@
   --pos:#6cc495; --pos-soft:#17301f; --warn:#e3a858; --warn-soft:#352612;
   --paper:#f4f6f8; --paper-line:#3a4756; --shadow:0 1px 2px rgba(0,0,0,.4);
   --focus:#8cc4ea;
-  --hero-dim:.7; --hero-solid:42%; --hero-clear:70%;
+  --des:#b8a3ee; --des-soft:#2a2342; --hero-dim:.7; --hero-solid:42%; --hero-clear:70%;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -178,6 +179,10 @@ ol.asks li b{font-weight:500}
 .pchip{font-size:12px;font-weight:700;padding:1px 7px;border-radius:4px;border:1px solid var(--line-strong);color:var(--muted);background:var(--surface);white-space:nowrap}
 .pchip.pos{border-color:var(--pos);color:var(--pos);background:var(--pos-soft)}
 .pchip.warn{border-color:var(--warn);color:var(--warn);background:var(--warn-soft)}
+.pchip.des{border-color:var(--des);color:var(--des);background:var(--des-soft)}
+.des-legend{font-size:12px;color:var(--muted);margin-top:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.des-legend .pchip{font-size:11px}
+table.cmp th .pchip{font-size:10.5px;margin-left:4px;vertical-align:1px}
 .render-fig{margin:24px 0 0;max-width:720px}
 .render-fig img{display:block;width:100%;height:auto;border-radius:4px}
 .render-fig figcaption{font-size:12px;color:var(--muted);margin-top:6px}
@@ -700,10 +705,14 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-si
           <tr><th scope="row">무대 가변성</th><td><span class="lv lo">낮음 · 고정</span></td><td><span class="lv">중간</span></td><td><span class="lv hi">높음</span></td></tr>
           <tr><th scope="row">계단석</th><td>없음</td><td>121석 고정</td><td>없음</td></tr>
           <tr><th scope="row">화장실 면적</th><td>기준</td><td><span class="lv hi">확장</span></td><td><span class="lv hi">확장</span></td></tr>
+          <tr><th scope="row">연사 동선 <span class="pchip des">설계</span></th><td><span class="lv hi">직접 (대기실→무대)</span></td><td><span class="lv lo">객석 경유</span></td><td><span class="lv lo">객석 경유</span></td></tr>
+          <tr><th scope="row">음향·차음 <span class="pchip des">설계</span></th><td><span class="lv hi">유리</span></td><td><span class="lv lo">강화 필요</span></td><td><span class="lv lo">강화 필요</span></td></tr>
+          <tr><th scope="row">조정실·시야 <span class="pchip des">설계</span></th><td>—</td><td><span class="lv lo">좌석 레벨 2m+ 필요</span></td><td><span class="lv lo">위치 재검토</span></td></tr>
           <tr><th scope="row">행사 전후 공간(프리펑션/리셉션)</th><td><span class="lv lo">복도 수준</span></td><td><span class="lv hi">넓음</span></td><td><span class="lv hi">넓음</span></td></tr>
         </tbody>
       </table>
     </div>
+    <p class="cmp-cap">연사 동선·음향·조정실 행은 송유근 이사(설계·디자인 총괄) 10/7 검토 의견입니다.</p>
     <p class="cmp-cap">ALT.1 좌석수는 추진실 확인 수량입니다. 유랩 도면의 표기(180석/156석)는 계단석을 제외한 수량으로, 유랩에 정정 요청 예정입니다.</p>
   </section>
 
@@ -969,7 +978,7 @@ footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-si
     <p class="muted-line" id="list-offline">접수된 의견은 추진실에서 취합해 공유합니다.</p>
   </section>
 
-  <footer>마이다스아이티 정자동 신사옥 · 신사옥추진실 · 도면 U.LAB · <span class="mono">최종 수정 2026.10.06</span></footer>
+  <footer>마이다스아이티 정자동 신사옥 · 신사옥추진실 · 도면 U.LAB · <span class="mono">최종 수정 2026.10.08</span></footer>
 </div>
 
 <div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="이미지 크게 보기" hidden>
@@ -1016,7 +1025,10 @@ const PLANS = {
       ["pos", "정형 배치로 운영이 단순하고 좌석 효율이 높음"],
       ["warn", "무대 위치가 고정되어 행사 형식 변화에 제약"],
       ["warn", "세미나실 밖 복도·홀 공간이 리셉션으로 쓰기엔 좁음"],
-      ["warn", "화장실이 상대적으로 작아 180명 행사 휴식 시간에 혼잡 우려"]
+      ["warn", "화장실이 상대적으로 작아 180명 행사 휴식 시간에 혼잡 우려"],
+      ["des", "연사 동선이 외부 → 대기실 → 무대로 직접 이어짐. ALT.1·ALT.2는 객석을 거쳐야 함."],
+      ["des", "세미나실이 벽으로 구획되어 음향의 층간 간섭을 막기 유리 (상부층 공조실, 하부층 교육실)."],
+      ["des", "화장실은 휴식 시간 정체가 예상되나 수량이 부족하지는 않음."]
     ]
   },
   alt1: {
@@ -1037,7 +1049,14 @@ const PLANS = {
       ["warn", "고정석 121석은 테이블 사용·배치 변경이 어려움"],
       ["warn", "계단석 121석은 테이블 없이 착석만 가능 — 식사·필기가 필요한 행사는 테이블석 78(테이블)/120(방켓) 기준으로 판단"],
       ["pos", "프리펑션홀이 넓어 리셉션·네트워킹에 유리"],
-      ["pos", "화장실 면적이 기존보다 넓어 대규모 행사 시 쉬는 시간 혼잡 완화"]
+      ["pos", "화장실 면적이 기존보다 넓어 대규모 행사 시 쉬는 시간 혼잡 완화"],
+      ["des", "방켓 241석은 계단석을 포함한 수량 — 계단식 좌석과 원형 테이블을 동시에 쓸 상황이 있는지 검토 필요."],
+      ["des", "\"벽을 없앤다\"의 범위 확인 필요 — 막힌 세미나실이 아니면 시선이 바깥으로 열리는데, 행사 성격에 따라 장점일 수도 단점일 수도 있음."],
+      ["des", "조정실이 시야를 가리지 않으려면 좌석 레벨이 최소 2m 이상 높아야 하고, 출입문 구조를 고려하면 시야각이 불리함."],
+      ["des", "곡면 LED는 좌우 끝자리에서 화면 선명도가 떨어질 수 있음."],
+      ["des", "기존 대비 무대·스크린 규모가 작음."],
+      ["des", "연사가 객석을 거쳐 무대로 가야 함 — 거리는 길지 않으나 공연성 행사에서는 문제 가능. 창고·대기실 쪽(동측·북측)으로 백스테이지 동선을 확보하고 소음을 차단하는 구조 필요."],
+      ["des", "개방형이라 차음 장치 강화 필요 — 특히 하부층 교육실에 대한 영향."]
     ]
   },
   alt2: {
@@ -1056,7 +1075,15 @@ const PLANS = {
       ["", "계단이 없어 뒷열 시야는 기존과 유사"],
       ["warn", "방켓 156석"],
       ["pos", "곡선 벽으로 홀과 프리펑션이 분리되어 소음·동선 관리 용이"],
-      ["pos", "화장실 면적이 기존보다 넓어 대규모 행사 시 쉬는 시간 혼잡 완화"]
+      ["pos", "화장실 면적이 기존보다 넓어 대규모 행사 시 쉬는 시간 혼잡 완화"],
+      ["des", "방켓 241석은 계단석을 포함한 수량 — 계단식 좌석과 원형 테이블을 동시에 쓸 상황이 있는지 검토 필요."],
+      ["des", "\"벽을 없앤다\"의 범위 확인 필요 — 막힌 세미나실이 아니면 시선이 바깥으로 열리는데, 행사 성격에 따라 장점일 수도 단점일 수도 있음."],
+      ["des", "조정실이 시야를 가리지 않으려면 좌석 레벨이 최소 2m 이상 높아야 하고, 출입문 구조를 고려하면 시야각이 불리함."],
+      ["des", "곡면 LED는 좌우 끝자리에서 화면 선명도가 떨어질 수 있음."],
+      ["des", "기존 대비 무대·스크린 규모가 작음."],
+      ["des", "연사가 객석을 거쳐 무대로 가야 함 — 거리는 길지 않으나 공연성 행사에서는 문제 가능. 창고·대기실 쪽(동측·북측)으로 백스테이지 동선을 확보하고 소음을 차단하는 구조 필요."],
+      ["des", "개방형이라 차음 장치 강화 필요 — 특히 하부층 교육실에 대한 영향."],
+      ["des", "조정실 위치가 불합리함."]
     ]
   }
 };
@@ -1321,7 +1348,7 @@ function renderPlan() {
   }
   document.querySelectorAll("#summary .stat").forEach(s => s.classList.toggle("on", !!lay && s.dataset.layout === lay));
 }
-const CHIP = { pos: "장점", warn: "유의", "": "참고" };
+const CHIP = { pos: "장점", warn: "유의", des: "설계", "": "참고" };
 function statTiles(p) {
   return `<div class="stats">${["table", "banquet"].map(l => {
     const d = p.deltas[l];
@@ -1330,7 +1357,7 @@ function statTiles(p) {
   }).join("")}</div>`;
 }
 const layoutList = (p) => `<ul class="bul">${p.layout.map(t => `<li>${esc(t)}</li>`).join("")}</ul>`;
-const reviewList = (p) => `<ul class="pts">${p.review.map(([c, t]) => `<li><span class="pchip ${c}">${CHIP[c]}</span><span>${esc(t)}</span></li>`).join("")}</ul>`;
+const reviewList = (p) => `<ul class="pts">${p.review.map(([c, t]) => `<li${c === "des" ? ' class="des-item"' : ""}><span class="pchip ${c}">${CHIP[c]}</span><span>${esc(t)}</span></li>`).join("")}</ul>${p.review.some(r => r[0] === "des") ? '<p class="des-legend"><span class="pchip des">설계</span> = 송유근 이사(설계·디자인 총괄) 검토 의견, 10/7</p>' : ""}`;
 
 function renderCompare() {
   const lay = state.cmpLayout;
